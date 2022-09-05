@@ -67,8 +67,8 @@ async function getScreenshot(von, lastName) {
   const dimension = 1300;
   await page.setViewport({ width: dimension, height: dimension });
   await page.goto(`${baseUrl}/order-status/${von}/${lastName}?screenshot=true`);
-  await page.waitForSelector("#screenshot-hook");
   try {
+    await page.waitForSelector("#screenshot-hook", { timeout: 0 });
     const screenshotHook = await page.$("#screenshot-hook");
     const base64 = await screenshotHook.screenshot({ encoding: "base64" });
     await page.close();
