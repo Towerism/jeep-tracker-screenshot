@@ -70,6 +70,7 @@ async function getScreenshot(von, lastName) {
   await page.waitForSelector("#screenshot-hook");
   const screenshotHook = await page.$("#screenshot-hook");
   const base64 = await screenshotHook.screenshot({ encoding: "base64" });
+  await page.close();
   return `data:image/jpeg;base64,${base64}`;
 }
 
