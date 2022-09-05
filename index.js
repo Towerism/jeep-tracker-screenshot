@@ -79,6 +79,7 @@ router.get("/screenshot/:von/:lastName", async (ctx) => {
   const { von, lastName } = ctx.params;
   const task = await taskQueue.push(() => getScreenshot(von, lastName));
   const screenshot = await task.promise;
+  console.log(`GET /screenshot/${von}/${lastName}`);
   ctx.body = { dataUrl: screenshot };
 });
 
