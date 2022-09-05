@@ -68,10 +68,15 @@ async function getScreenshot(von, lastName) {
   await page.setViewport({ width: dimension, height: dimension });
   await page.goto(`${baseUrl}/order-status/${von}/${lastName}?screenshot=true`);
   await page.waitForSelector("#screenshot-hook");
-  const screenshotHook = await page.$("#screenshot-hook");
-  const base64 = await screenshotHook.screenshot({ encoding: "base64" });
-  await page.close();
-  return `data:image/jpeg;base64,${base64}`;
+  try {
+    const screenshotHook = await page.$("#screenshot-hook");
+    const base64 = await screenshotHook.screenshot({ encoding: "base64" });
+    await page.close();
+    return `data:image/jpeg;base64,${base64}`;
+  } catch (err) {
+    console.error(err);
+    return "";
+  }
 }
 
 const taskQueue = new TaskQueue({ size: TASK_QUEUE_SIZE });
@@ -81,6 +86,9 @@ router.get("/screenshot/:von/:lastName", async (ctx) => {
   const task = await taskQueue.push(() => getScreenshot(von, lastName));
   const screenshot = await task.promise;
   console.log(`GET /screenshot/${von}/${lastName}`);
+  if (!screenshot) {
+    ctx.throw("unable to get screenshot", 500);
+  }
   ctx.body = { dataUrl: screenshot };
 });
 
