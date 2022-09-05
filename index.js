@@ -63,11 +63,14 @@ async function getScreenshot(von, lastName) {
       ? "http://localhost:3000"
       : "https://jeeponorder.com";
 
-  const page = await browser.newPage();
-  const dimension = 1300;
-  await page.setViewport({ width: dimension, height: dimension });
-  await page.goto(`${baseUrl}/order-status/${von}/${lastName}?screenshot=true`);
   try {
+    const page = await browser.newPage();
+    const dimension = 1300;
+    await page.setViewport({ width: dimension, height: dimension });
+    await page.setDefaultNavigationTimeout(0);
+    await page.goto(
+      `${baseUrl}/order-status/${von}/${lastName}?screenshot=true`
+    );
     await page.waitForSelector("#screenshot-hook", { timeout: 0 });
     const screenshotHook = await page.$("#screenshot-hook");
     const base64 = await screenshotHook.screenshot({ encoding: "base64" });
