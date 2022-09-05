@@ -1,0 +1,24 @@
+{
+  "name": "jeep-tracker-screenshot",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "scripts": {
+    "start": "cross-env NODE_ENV=production node index.js",
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "dev": "cross-env NODE_ENV=development nodemon index.js"
+  },
+  "author": "Martin Fracker, Jr. <martin.frackerjr@gmail.com>",
+  "license": "MIT",
+  "dependencies": {
+    "@goodware/task-queue": "^2.1.3",
+    "@koa/router": "^12.0.0",
+    "koa": "^2.13.4",
+    "nodemon": "^2.0.19",
+    "puppeteer": "^17.1.0"
+  },
+  "devDependencies": {
+    "@types/koa__router": "^8.0.11",
+    "cross-env": "^7.0.3"
+  }
+}
